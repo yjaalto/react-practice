@@ -1,10 +1,14 @@
 import React from "react";
 import PhoneForm from "./PhoneForm";
 
+const handleCreate = data => {
+  console.log(data);
+};
+
 function App() {
   return (
     <div className="App">
-      <PhoneForm></PhoneForm>
+      <PhoneForm onCreate={handleCreate}></PhoneForm>
     </div>
   );
 }
