@@ -1,6 +1,8 @@
 import React from "react";
 import ContactInfo from "./ContactInfo";
 import ContactDetails from "./ContactDetails";
+import ContactCreate from "./ContactCreate";
+import update from "react-addons-update";
 
 export default class Contact extends React.Component {
     constructor(props) {
@@ -42,6 +44,37 @@ export default class Contact extends React.Component {
             keyword: e.target.value
         });
     };
+
+    handleCreate = contact => {
+        this.setState({
+            contactData: update(this.state.contactData, { $push: [contact] })
+        });
+    };
+
+    handleRemove = () => {
+        if (this.state.selectedKey < 0) {
+            return;
+        }
+
+        this.setState({
+            contactData: update(this.state.contactData, {
+                $splice: [[this.state.selectedKey, 1]]
+            }),
+            selectedKey: -1
+        });
+    };
+
+    handleEdit = (name, phone) => {
+        this.setState({
+            contactData: update(this.state.contactData, {
+                [this.state.selectedKey]: {
+                    name: { $set: name },
+                    phone: { $set: phone }
+                }
+            })
+        });
+    };
+
     render() {
         const mapToComponents = data => {
             data.sort();
@@ -75,7 +108,10 @@ export default class Contact extends React.Component {
                 <ContactDetails
                     isSelected={this.state.selectedKey !== -1}
                     contact={this.state.contactData[this.state.selectedKey]}
+                    onRemove={this.handleRemove}
+                    onEdit={this.handleEdit}
                 ></ContactDetails>
+                <ContactCreate onCreate={this.handleCreate} />
             </div>
         );
     }
