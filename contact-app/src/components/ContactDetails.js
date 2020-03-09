@@ -23,6 +23,8 @@ class ContactDetails extends Component {
                 name: this.props.contact.name,
                 phone: this.props.contact.phone
             });
+        } else {
+            this.handleEdit();
         }
         this.setState({
             isEdit: !this.state.isEdit
@@ -37,6 +39,12 @@ class ContactDetails extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
+    };
+
+    handleKeyPress = e => {
+        if (e.charCode === 13) {
+            this.handleToggle();
+        }
     };
 
     render() {
@@ -65,6 +73,7 @@ class ContactDetails extends Component {
                         placeholder="phone"
                         value={this.state.phone}
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
                     />
                 </p>
             </div>
