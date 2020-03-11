@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const propTypes = {
     onPlus: PropTypes.func,
-    onSubstract: PropTypes.func,
+    onSubtract: PropTypes.func,
     onRandomizeColor: PropTypes.func
 };
 
@@ -12,7 +12,7 @@ const createWarning = funcName => {
 };
 const defaultProps = {
     onPlus: () => createWarning("onPlus"),
-    onSubstract: () => createWarning("onSubtract"),
+    onSubtract: () => createWarning("onSubtract"),
     onRandomizeColor: () => createWarning("onRandomizeColor")
 };
 
@@ -21,7 +21,7 @@ class Control extends Component {
         return (
             <div>
                 <button onClick={this.props.onPlus}>+</button>
-                <button onClick={this.props.onSubstract}>-</button>
+                <button onClick={this.props.onSubtract}>-</button>
                 <button onClick={this.props.onRandomizeColor}>
                     Randomize Color
                 </button>
