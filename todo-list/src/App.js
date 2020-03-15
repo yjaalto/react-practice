@@ -2,18 +2,54 @@ import React, { Component } from "react";
 import TodoListTemplate from "./components/TodoListTemplate";
 import Form from "./components/Form";
 import TodoItemList from "./components/TodoItemList";
+import Palette from "./components/Palette";
 
 class App extends Component {
     id = 3;
+    colors = ["#343a40", "#f03e3e", "#12b886", "#228ae6"];
 
     state = {
         input: "",
         todos: [
-            { id: 0, text: " 리액트 소개", checked: false },
-            { id: 1, text: " 리액트 소개", checked: true },
-            { id: 2, text: " 리액트 소개", checked: false }
-        ]
+            {
+                id: 0,
+                text: " 리액트 소개",
+                checked: false,
+                color: this.colors[0]
+            },
+            {
+                id: 1,
+                text: " flex",
+                checked: true,
+                color: this.colors[0]
+            },
+            {
+                id: 2,
+                text: " Javascript",
+                checked: false,
+                color: this.colors[0]
+            }
+        ],
+        color: this.colors[0]
     };
+
+    componentWillMount() {
+        const todos = localStorage.todos;
+
+        if (todos) {
+            this.setState({
+                todos: JSON.parse(todos)
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (
+            JSON.stringify(prevState.todos) !== JSON.stringify(this.state.todos)
+        ) {
+            localStorage.todos = JSON.stringify(this.state.todos);
+        }
+    }
 
     handleChange = e => {
         this.setState({
@@ -22,13 +58,16 @@ class App extends Component {
     };
 
     handleCreate = () => {
-        const { input, todos } = this.state;
+        const { input, todos, color } = this.state;
+
+        if (input === "") return;
         this.setState({
             input: "",
             todos: todos.concat({
                 id: this.id++,
                 text: input,
-                checked: false
+                checked: false,
+                color: color
             })
         });
     };
@@ -64,14 +103,22 @@ class App extends Component {
         });
     };
 
+    handleChangeColor = color => {
+        console.log(color);
+        this.setState({
+            color: color
+        });
+    };
+
     render() {
-        const { input, todos } = this.state;
+        const { input, todos, color } = this.state;
         const {
             handleChange,
             handleCreate,
             handleKeyPress,
             handleToggle,
-            handleRemove
+            handleRemove,
+            handleChangeColor
         } = this;
 
         return (
@@ -83,6 +130,14 @@ class App extends Component {
                         onChange={handleChange}
                         onCreate={handleCreate}
                         onToggle={handleToggle}
+                        color={color}
+                    />
+                }
+                palette={
+                    <Palette
+                        color={this.colors}
+                        selected={color}
+                        onChangeColor={handleChangeColor}
                     />
                 }
             >

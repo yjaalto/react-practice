@@ -1,0 +1,29 @@
+.palette {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.color {
+    width: 2rem;
+    height: 2rem;
+    opacity: 0.5;
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.color:hover {
+    opacity: 0.75;
+}
+
+.color.active,
+.color:active {
+    opacity: 1;
+}
+
+.color + .color {
+    margin-left: 1rem;
+}
